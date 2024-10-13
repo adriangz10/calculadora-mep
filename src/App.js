@@ -3,6 +3,7 @@ import axios from "axios";
 import "./App.css";
 import Footer from "./Footer";
 
+
 const App = () => {
   const [valorVenta, setValorVenta] = useState(0);
   const [valorFecha, setFecha] = useState("");
@@ -55,33 +56,49 @@ const App = () => {
   }, []);
 
   return (
-    <div className="container">
-      <header></header>
-      <section className="cotizacion">
-        <p>La cotización del Dólar MEP hoy es:</p>
-        <div className="precio">${valorVenta}</div>
-        <p className="variacion">Ultima actualizacion {valorFecha}</p>
-        {/* <button className="whatsapp-btn">Unite al WhatsApp Dólar Hoy</button> */}
+    <div class="container mx-auto max-w-2xl text-center text-2xl my-20 px-4">
+      <header>
+        <h1 class="text-2xl font-bold text-gray-800 mb-5">
+          Cotización del Dólar MEP
+        </h1>
+      </header>
+      <section class="cotizacion bg-white p-5 rounded-lg shadow mb-5">
+        <p class="text-lg text-2xl text-gray-600">La cotización del Dólar MEP hoy es:</p>
+        <div class="precio text-5xl font-bold text-gray-800 my-5">
+          ${valorVenta}
+        </div>
+        <p class="variacion text-base text-gray-600">
+          Última actualización:{" "}
+          <span class="text-blue-500 font-bold">{valorFecha}</span>
+        </p>
+        {/* <!-- <button class="whatsapp-btn bg-green-500 text-white py-2 px-4 rounded text-base mt-2 hover:bg-green-600">Unite al WhatsApp Dólar Hoy</button> --> */}
       </section>
-      <section className="conversor">
-        <h2>Conversor de Dólar MEP a pesos</h2>
+      <section class="conversor bg-white p-5 rounded-lg shadow">
+        <h2 class="text-xl font-semibold text-gray-800 mb-5">
+          Conversor de Dólar MEP a pesos
+        </h2>
         <input
           type="number"
+          class="w-full p-2 mb-5 border border-gray-300 rounded text-base"
           value={montoDolares}
           placeholder="Ingresa monto en dólares"
           onChange={enviarDato}
         />
-        <table>
+        <table class="w-full border-collapse mt-2">
           <thead>
-            <tr>
-              <th>Tipo de Dólar</th>
-              <th>Equivalente en Pesos</th>
+            <tr class="bg-gray-100">
+              <th class="border border-gray-300 p-2 font-bold">
+                Tipo de Dólar
+              </th>
+              <th class="border border-gray-300 p-2 font-bold">
+                Equivalente en Pesos
+              </th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Dólar MEP</td>
-              <td>{equivalentePesos}</td>
+              <td class="border border-gray-300 p-2">Dólar MEP</td>
+              <td class="border border-gray-300 p-2">{equivalentePesos}</td>
             </tr>
           </tbody>
         </table>
