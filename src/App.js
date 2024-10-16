@@ -59,7 +59,7 @@ const App = () => {
     <div class="container mx-auto max-w-2xl text-center text-2xl my-20 px-4">
       <header>
         <h1 class="text-2xl font-bold text-gray-800 mb-5">
-          Cotización del Dólar MEP
+          Calculadora de Dólar MEP
         </h1>
       </header>
       <section class="cotizacion bg-white p-5 rounded-lg shadow mb-5">
