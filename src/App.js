@@ -65,7 +65,7 @@ const App = () => {
       <section class="cotizacion bg-white p-5 rounded-lg shadow mb-5">
         <p class="text-lg text-2xl text-gray-600">La cotización del Dólar MEP hoy es:</p>
         <div class="precio text-5xl font-bold text-gray-800 my-5">
-          ${valorVenta}
+        ${valorVenta.toLocaleString("es-ES")}
         </div>
         <p class="variacion text-base text-gray-600">
           Última actualización:{" "}
@@ -98,7 +98,7 @@ const App = () => {
           <tbody>
             <tr>
               <td class="border border-gray-300 p-2">Dólar MEP</td>
-              <td class="border border-gray-300 p-2">{equivalentePesos}</td>
+              <td class="border border-gray-300 p-2">{Number(equivalentePesos).toLocaleString("es-ES")}</td>
             </tr>
           </tbody>
         </table>
