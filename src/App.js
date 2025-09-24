@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import "./App.css";
 import Footer from "./Footer";
@@ -27,7 +27,7 @@ const App = () => {
     }
   }, [isDarkMode]);
 
-  const obtenerDatos = async () => {
+  const obtenerDatos = useCallback(async () => {
     setLoading(true);
     setError(null);
     let apiUrl = "";
@@ -55,11 +55,11 @@ const App = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedCurrency]);
 
   useEffect(() => {
     obtenerDatos();
-  }, [selectedCurrency]);
+  }, [selectedCurrency, obtenerDatos]);
 
   const renderContent = () => {
     if (loading) return <p>Cargando...</p>;
