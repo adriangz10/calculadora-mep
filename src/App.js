@@ -2,115 +2,112 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
 import Footer from "./Footer";
-
+import DollarCard from "./DollarCard";
+import RealCard from "./RealCard";
+import UruguayoCard from "./UruguayoCard";
+import Header from "./Header";
 
 const App = () => {
-  const [valorVenta, setValorVenta] = useState(0);
-  const [valorFecha, setFecha] = useState("");
-  const [montoDolares, setMontoDolares] = useState("");
-  const [equivalentePesos, setEquivalentePesos] = useState("-");
+  const [rates, setRates] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedCurrency, setSelectedCurrency] = useState("ars");
+  const [isDarkMode, setDarkMode] = useState(false);
 
-  const apiUrl = "https://dolarapi.com/v1/dolares/bolsa";
-
-  const obtenerValorVenta = async () => {
-    try {
-      const response = await axios.get(apiUrl);
-      setValorVenta(response.data.venta);
-    } catch (error) {
-      console.error("Error al obtener el valor de venta:", error);
-    }
+  const toggleDarkMode = (checked) => {
+    setDarkMode(checked);
   };
 
-  const obtenerFechaActualizacion = async () => {
-    try {
-      const response = await axios.get(apiUrl);
-      const fechaISO = response.data.fechaActualizacion;
-
-      const fecha = new Date(fechaISO);
-
-      const opciones = {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-      };
-      const fechaFormateada = fecha.toLocaleDateString("es-ES", opciones);
-
-      setFecha(fechaFormateada);
-    } catch (error) {
-      console.error("Error al obtener el valor de la fecha", error);
-    }
-  };
-
-  const enviarDato = (event) => {
-    const valor = event.target.value;
-
-    if (!valor || isNaN(valor)) {
-      setMontoDolares(valor);
-      setEquivalentePesos("-");
+  useEffect(() => {
+    const html = window.document.documentElement;
+    if (isDarkMode) {
+      html.classList.add("dark");
     } else {
-      setMontoDolares(valor);
-      const equivalente = (valor * valorVenta).toFixed(2);
-      setEquivalentePesos(equivalente);
+      html.classList.remove("dark");
+    }
+  }, [isDarkMode]);
+
+  const obtenerDatos = async () => {
+    setLoading(true);
+    setError(null);
+    let apiUrl = "";
+    switch (selectedCurrency) {
+      case "ars":
+        apiUrl = "https://dolarapi.com/v1/dolares";
+        break;
+      case "brl":
+        apiUrl = "https://dolarapi.com/v1/cotizaciones/brl";
+        break;
+      case "uyu":
+        apiUrl = "https://dolarapi.com/v1/cotizaciones/uyu";
+        break;
+      default:
+        return;
+    }
+
+    try {
+      const response = await axios.get(apiUrl);
+      const data = Array.isArray(response.data) ? response.data : [response.data];
+      setRates(data);
+    } catch (error) {
+      setError(`Error al obtener las cotizaciones de ${selectedCurrency}.`);
+      console.error(`Error al obtener datos de ${selectedCurrency}:`, error);
+    } finally {
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    obtenerValorVenta();
-    obtenerFechaActualizacion();
-  }, []);
+    obtenerDatos();
+  }, [selectedCurrency]);
+
+  const renderContent = () => {
+    if (loading) return <p>Cargando...</p>;
+    if (error) return <p className="text-red-500">{error}</p>;
+
+    switch (selectedCurrency) {
+      case "ars":
+        return (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {rates.map((rate) => (
+              <DollarCard key={rate.casa} rate={rate} />
+            ))}
+          </div>
+        );
+      case "brl":
+        return (
+          <div className="flex justify-center">
+            {rates.map((rate) => (
+              <div key={rate.casa} className="w-full max-w-md">
+                <RealCard rate={rate} />
+              </div>
+            ))}
+          </div>
+        );
+      case "uyu":
+        return (
+          <div className="flex justify-center">
+            {rates.map((rate) => (
+              <div key={rate.casa} className="w-full max-w-md">
+                <UruguayoCard rate={rate} />
+              </div>
+            ))}
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
-    <div className="container mx-auto max-w-2xl text-center text-2xl my-20 px-4">
-      <header>
-        <h1 className="text-2xl font-bold text-gray-800 mb-5">
-          Calculadora de Dólar MEP
-        </h1>
-      </header>
-      <section className="cotizacion bg-white p-5 rounded-lg shadow mb-5">
-        <p className="text-lg text-2xl text-gray-600">La cotización del Dólar MEP hoy es:</p>
-        <div className="precio text-5xl font-bold text-gray-800 my-5">
-          ${valorVenta.toLocaleString("es-ES")}
+    <div className={`min-h-screen flex flex-col ${isDarkMode ? 'dark' : ''} dark:bg-gray-900 dark:text-white`}>
+      <Header selectedCurrency={selectedCurrency} setSelectedCurrency={setSelectedCurrency} isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
+      <main className="flex-grow pt-24 pb-20">
+        <div className="container mx-auto max-w-7xl text-center text-2xl px-4 flex justify-center">
+          {renderContent()}
         </div>
-        <p className="variacion text-base text-gray-600">
-          Última actualización:{" "}
-          <span className="text-blue-500 font-bold">{valorFecha}</span>
-        </p>
-      </section>
-      <section className="conversor bg-white p-5 rounded-lg shadow">
-        <h2 className="text-xl font-semibold text-gray-800 mb-5">
-          Conversor de Dólar MEP a pesos
-        </h2>
-        <input
-          type="number"
-          className="w-full p-2 mb-5 border border-gray-300 rounded text-base"
-          value={montoDolares}
-          placeholder="Ingresa monto en dólares"
-          onChange={enviarDato}
-        />
-        <table className="w-full border-collapse mt-2">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border border-gray-300 p-2 font-bold">
-                Tipo de Dólar
-              </th>
-              <th className="border border-gray-300 p-2 font-bold">
-                Equivalente en Pesos
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td className="border border-gray-300 p-2">Dólar MEP</td>
-              <td className="border border-gray-300 p-2">
-                {equivalentePesos === "-" ? equivalentePesos : Number(equivalentePesos).toLocaleString("es-ES")}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-      <Footer /> {Footer}
+      </main>
+      <Footer />
     </div>
   );
 };
