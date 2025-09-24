@@ -6,6 +6,12 @@ import DollarCard from "./DollarCard";
 import RealCard from "./RealCard";
 import UruguayoCard from "./UruguayoCard";
 import Header from "./Header";
+import InstallPWAButton from "./InstallPWAButton";
+
+const isMobile = () => {
+  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  return /android|ipad|iphone|ipod/i.test(userAgent);
+};
 
 const App = () => {
   const [rates, setRates] = useState([]);
@@ -13,6 +19,8 @@ const App = () => {
   const [error, setError] = useState(null);
   const [selectedCurrency, setSelectedCurrency] = useState("ars");
   const [isDarkMode, setDarkMode] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [showInstallButton, setShowInstallButton] = useState(false);
 
   const toggleDarkMode = (checked) => {
     setDarkMode(checked);
@@ -26,6 +34,37 @@ const App = () => {
       html.classList.remove("dark");
     }
   }, [isDarkMode]);
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      if (isMobile()) {
+        setShowInstallButton(true);
+      }
+    };
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log(`User response to the install prompt: ${outcome}`);
+      setDeferredPrompt(null);
+      setShowInstallButton(false);
+    }
+  };
+
+  const handleCloseInstallBanner = () => {
+    setShowInstallButton(false);
+  };
+
 
   const obtenerDatos = useCallback(async () => {
     setLoading(true);
@@ -108,6 +147,12 @@ const App = () => {
         </div>
       </main>
       <Footer />
+      {showInstallButton && (
+        <InstallPWAButton
+          onInstallClick={handleInstallClick}
+          onClose={handleCloseInstallBanner}
+        />
+      )}
     </div>
   );
 };
