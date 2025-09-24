@@ -1,70 +1,71 @@
-# Getting Started with Create React App
+ 1. Descripción General
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+  Esta es una aplicación web de una sola página (SPA) desarrollada en React que funciona como una
+  "Calculadora de Dólar MEP". Su objetivo principal es proporcionar al usuario la cotización en tiempo real
+  del Dólar MEP y permitirle convertir un monto de dólares a pesos argentinos según esa cotización.
 
-## Available Scripts
+  2. Características
 
-In the project directory, you can run:
+   * Cotización en Tiempo Real: Muestra el valor de venta actualizado del Dólar MEP.
+   * Fecha de Actualización: Indica la fecha y hora de la última actualización de la cotización.
+   * Conversor de Moneda: Permite a los usuarios ingresar un monto en dólares estadounidenses (USD) para ver
+     su equivalente en pesos argentinos (ARS).
+   * Interfaz Limpia: Utiliza Tailwind CSS para un diseño simple, moderno y responsivo.
 
-### `npm start`
+  3. Tecnologías Utilizadas
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+   * React: Biblioteca de JavaScript para construir la interfaz de usuario.
+   * Axios: Cliente HTTP para realizar la solicitud a la API de cotizaciones.
+   * Tailwind CSS: Framework de CSS para el diseño y estilo de la aplicación.
+   * dolarapi.com: API externa utilizada para obtener los datos de la cotización.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+  4. API de Referencia
 
-### `npm test`
+  La aplicación consume datos del siguiente endpoint:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   * URL: https://dolarapi.com/v1/dolares/bolsa
+   * Método: GET
+   * Respuesta (Ejemplo):
 
-### `npm run build`
+   1     {
+   2       "moneda": "USD",
+   3       "casa": "bolsa",
+   4       "nombre": "Bolsa",
+   5       "compra": 1234.56,
+   6       "venta": 1239.99,
+   7       "fechaActualizacion": "2024-05-16T15:49:00.000Z"
+   8     }
+      La aplicación utiliza los campos venta y fechaActualizacion.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+  5. Estructura del Proyecto
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    1 dolar-mep/
+    2 ├── public/            # Archivos estáticos y HTML principal
+    3 ├── src/               # Código fuente de la aplicación
+    4 │   ├── App.css        # Estilos específicos para App.js
+    5 │   ├── App.js         # Componente principal de la aplicación
+    6 │   ├── Footer.js      # Componente del pie de página
+    7 │   ├── index.css      # Estilos globales
+    8 │   ├── index.js       # Punto de entrada de la aplicación
+    9 │   └── ...
+   10 ├── .gitignore         # Archivos ignorados por Git
+   11 ├── package.json       # Dependencias y scripts del proyecto
+   12 ├── README.md          # Documentación del proyecto
+   13 └── tailwind.config.js # Configuración de Tailwind CSS
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  6. Scripts Disponibles
 
-### `npm run eject`
+  En el directorio del proyecto, puedes ejecutar:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+  npm start
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+  Ejecuta la aplicación en modo de desarrollo.
+  Abre http://localhost:3000 (http://localhost:3000) para verla en tu navegador.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+  npm test
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+  Lanza el corredor de pruebas en modo interactivo.
 
-## Learn More
+  npm run build
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+  Construye la aplicación para producción en la carpeta build.
