@@ -32,6 +32,14 @@ const Footer = () => {
           />
         </a>
       </div>
+      <p className="mt-2 text-sm">
+        <a href="/privacidad" className="text-blue-500 mx-2">
+          Privacidad
+        </a>
+        <a href="/terminos" className="text-blue-500 mx-2">
+          Términos
+        </a>
+      </p>
     </footer>
   );
 };

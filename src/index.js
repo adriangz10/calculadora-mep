@@ -2,12 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import Privacidad from './Privacidad';
+import Terminos from './Terminos';
 import reportWebVitals from './reportWebVitals';
+
+const paginas = {
+  '/privacidad': Privacidad,
+  '/terminos': Terminos,
+};
+const Pagina = paginas[window.location.pathname.replace(/\/+$/, '')] || App;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Pagina />
   </React.StrictMode>
 );
 
