@@ -1,70 +1,105 @@
-# Getting Started with Create React App
+<div align="center">
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 💵 Calculadora de Dólar MEP
 
-## Available Scripts
+**Cotización del Dólar MEP en tiempo real y conversor de dólares a pesos argentinos.**
 
-In the project directory, you can run:
+![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?logo=tailwindcss&logoColor=white)
+![Axios](https://img.shields.io/badge/Axios-1.7-5A29E4?logo=axios&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?logo=javascript&logoColor=black)
+![Create React App](https://img.shields.io/badge/Create_React_App-5-09D3AC?logo=createreactapp&logoColor=white)
 
-### `npm start`
+</div>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 📌 Sobre el proyecto
 
-### `npm test`
+En Argentina, el **Dólar MEP** (Mercado Electrónico de Pagos, o "dólar bolsa") es una de las cotizaciones de referencia más usadas para ahorrar, cobrar servicios del exterior o calcular precios. Esta aplicación web permite consultar su valor actualizado al instante y convertir cualquier monto en dólares a su equivalente en pesos, sin registros ni publicidad.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## ✨ Funcionalidades
 
-### `npm run build`
+- **Cotización en vivo**: obtiene el valor de venta del Dólar MEP desde [DolarAPI](https://dolarapi.com) al cargar la página.
+- **Fecha de última actualización**: muestra cuándo se actualizó la cotización, con formato legible en español.
+- **Conversor USD → ARS**: calcula el equivalente en pesos a medida que el usuario escribe.
+- **Formato numérico local**: separador de miles y decimales al estilo hispano (ej. `1.250.000,50`).
+- **Validación de entrada**: si el campo está vacío o no es un número, se muestra un guion (`-`) en lugar de `NaN`.
+- **Diseño responsive**: interfaz limpia construida con Tailwind CSS, adaptada a móvil y escritorio.
+- **Páginas legales**: Términos y Condiciones y Política de Privacidad con un enrutado liviano propio, sin dependencias extra.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🛠️ Tecnologías
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+| Área | Herramientas |
+| --- | --- |
+| Frontend | React 18 (hooks: `useState`, `useEffect`) |
+| Estilos | Tailwind CSS 3 |
+| Peticiones HTTP | Axios |
+| Datos | [DolarAPI](https://dolarapi.com) – endpoint `/v1/dolares/bolsa` |
+| Tooling | Create React App, ESLint, Jest + Testing Library |
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🧠 Qué aprendí / puntos técnicos
 
-### `npm run eject`
+- Consumo de una **API REST pública** con `async/await` y manejo de errores.
+- Manejo de **estado en React** para sincronizar la entrada del usuario con el resultado calculado.
+- **Formateo de fechas y números** con la API de internacionalización (`toLocaleString`, `toLocaleDateString`).
+- **Ruteo simple por `pathname`** para servir páginas estáticas sin agregar React Router.
+- Componentes reutilizables (`Footer`, `Legal`, `Seccion`) para mantener un layout consistente.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 📂 Estructura
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+src/
+├── App.js          # Cotización + conversor (componente principal)
+├── Footer.js       # Pie de página con redes y enlaces legales
+├── Legal.js        # Layout reutilizable para páginas legales
+├── Terminos.js     # Términos y Condiciones
+├── Privacidad.js   # Política de Privacidad
+└── index.js        # Punto de entrada y ruteo por URL
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 🚀 Cómo ejecutarlo
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+**Requisitos:** Node.js 16 o superior y npm.
 
-## Learn More
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/adriangz10/calculadora-mep.git
+cd calculadora-mep
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# 2. Instalar dependencias
+npm install
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+# 3. Levantar en modo desarrollo (http://localhost:3000)
+npm start
+```
 
-### Code Splitting
+Otros scripts disponibles:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+| Comando | Descripción |
+| --- | --- |
+| `npm run build` | Genera la versión optimizada para producción en `build/` |
+| `npm test` | Ejecuta los tests en modo interactivo |
 
-### Analyzing the Bundle Size
+## 🔮 Próximas mejoras
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- [ ] Agregar otras cotizaciones (oficial, blue, CCL, cripto).
+- [ ] Conversión inversa (pesos → dólares).
+- [ ] Modo oscuro.
+- [ ] Indicadores de carga y de error cuando la API no responde.
+- [ ] Gráfico con la evolución histórica de la cotización.
 
-### Making a Progressive Web App
+## ⚠️ Aviso
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Los valores provienen de DolarAPI y tienen fines **informativos**. No constituyen asesoramiento financiero.
 
-### Advanced Configuration
+## 👤 Autor
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+**Adrián Gómez** · [@adriangz10](https://github.com/adriangz10)
 
-### Deployment
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/adriiangomez10)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](https://github.com/adriangz10)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+<div align="center">⭐ Si te resultó útil, dejale una estrella al repo.</div>
